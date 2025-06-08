@@ -31,13 +31,13 @@ int main() {
     float number_calc;
     ifstream inputFile_calc;
     inputFile_calc.open(return_vals.first);
-    inputFile_calc >> number_calc;
-    data_size++;
-    while (!inputFile_calc.eof()) {
-        inputFile_calc >> number_calc;
+    string line;
+    getline(inputFile_calc, line);
+    stringstream ss(line);
+    float temp_number;
+    while (ss >> temp_number) {
         data_size++;
-        if (number_calc == 1 || number_calc == 2) {
-            data_size--;
+        if (ss.peek() == '/n') {
             break;
         }
     }
