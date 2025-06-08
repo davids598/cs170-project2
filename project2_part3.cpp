@@ -345,7 +345,7 @@ float Accuracy(vector<vector<float> > &data, vector<int> feature_set) {
                     loc = k;
                     calc_label = data.at(k).at(0);
                 }
-                if (K_NN_COUNT > 1 && K_NN_COUNT % 2 == 1) {
+                if (K_NN_COUNT > 1 && K_NN_COUNT % 2 == 1) { //Gather all distances if we are in KNN > 1 mode
                     distances.push_back(make_pair(distance, data.at(k).at(0)));
                 }
             }
@@ -354,16 +354,16 @@ float Accuracy(vector<vector<float> > &data, vector<int> feature_set) {
         if (calc_label == label && K_NN_COUNT == 1) { //If correctly predicted, update count of correct predictions
             correct++;
             //cout << "Correct Updated!" << endl;
-        } else if (K_NN_COUNT > 1 && K_NN_COUNT % 2 == 1) {
+        } else if (K_NN_COUNT > 1 && K_NN_COUNT % 2 == 1) { // If in KNN > 1 mode, get all distances and labels
             int temp_count = 0;
-            sort(distances.begin(), distances.end());
+            sort(distances.begin(), distances.end()); //Sort from closest to farthest nodes
             for (int k = 0; k < K_NN_COUNT; ++k) {
                 int calc_label = distances.at(k).second;
-                if (calc_label == label) {
+                if (calc_label == label) { //Count correct number of neighbors
                     temp_count++;
                 }
             }
-            if ((float)temp_count > ((float)K_NN_COUNT / (float)2)) {
+            if ((float)temp_count > ((float)K_NN_COUNT / (float)2)) { //If correct # of neighbors are a majority, mark as correct
                 correct++;
             }
         }
